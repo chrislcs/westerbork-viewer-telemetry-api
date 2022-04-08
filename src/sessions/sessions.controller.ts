@@ -1,5 +1,7 @@
 import { Controller, Get, Post, Param } from '@nestjs/common';
+
 import { SessionsService } from './sessions.service';
+import { FindOneParams } from './validators/find-one-params.validator';
 
 @Controller('sessions')
 export class SessionsController {
@@ -16,7 +18,7 @@ export class SessionsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.sessionsService.findOne(id);
+  findOne(@Param() params: FindOneParams) {
+    return this.sessionsService.findOne(params.id);
   }
 }
