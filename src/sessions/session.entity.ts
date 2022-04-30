@@ -10,6 +10,7 @@ import {
 import { Place } from '../places/place.entity';
 import { Waypoint } from '../waypoints/waypoint.entity';
 import { Page } from '../pages/page.entity';
+import { Click } from '../clicks/click.entity';
 
 @Entity({ name: 'sessions' })
 export class Session {
@@ -36,4 +37,7 @@ export class Session {
 
   @OneToMany(() => Page, (page) => page.session)
   pages!: Page[];
+
+  @OneToMany(() => Click, (click) => click.session)
+  clicks!: Click[];
 }

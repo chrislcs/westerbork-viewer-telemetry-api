@@ -14,7 +14,7 @@ export class Click {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => Session, (session) => session.places)
+  @ManyToOne(() => Session, (session) => session.clicks)
   @JoinColumn({ name: 'session_id' })
   session!: Session;
 
