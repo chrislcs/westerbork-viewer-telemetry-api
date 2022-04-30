@@ -7,6 +7,7 @@ import { SessionsModule } from './sessions/sessions.module';
 import { PlacesModule } from './places/places.module';
 import { WaypointsModule } from './waypoints/waypoints.module';
 import { PagesModule } from './pages/pages.module';
+import { ClicksModule } from './clicks/clicks.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { PagesModule } from './pages/pages.module';
     PlacesModule,
     WaypointsModule,
     PagesModule,
+    ClicksModule,
   ],
   controllers: [],
   providers: [],
