@@ -1,15 +1,17 @@
-import { Controller, Get, Post, Param } from '@nestjs/common';
+import { Controller, Get, Post, Param, Patch, Body } from '@nestjs/common';
 
 import { SessionsService } from './sessions.service';
-import { FindOneParams } from './validators/find-one-params.validator';
+import { CreateSessionDto } from './dto/create-session.dto';
+import { UpdateSessionDto } from './dto/update-session.dto';
+import { UuidParams } from '../shared/validators/uuid-params.validator';
 
 @Controller('sessions')
 export class SessionsController {
   constructor(private readonly sessionsService: SessionsService) {}
 
   @Post()
-  create() {
-    return this.sessionsService.create();
+  create(@Body() createSessionDto: CreateSessionDto) {
+    return this.sessionsService.create(createSessionDto);
   }
 
   @Get()
@@ -18,7 +20,15 @@ export class SessionsController {
   }
 
   @Get(':id')
-  findOne(@Param() params: FindOneParams) {
+  findOne(@Param() params: UuidParams) {
     return this.sessionsService.findOne(params.id);
+  }
+
+  @Patch(':id')
+  update(
+    @Param() params: UuidParams,
+    @Body() updateSessionDto: UpdateSessionDto,
+  ) {
+    return this.sessionsService.update(params.id, updateSessionDto);
   }
 }
