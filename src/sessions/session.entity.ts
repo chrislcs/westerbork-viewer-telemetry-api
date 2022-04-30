@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { Place } from '../places/place.entity';
+import { Waypoint } from '../waypoints/waypoint.entity';
 
 @Entity({ name: 'sessions' })
 export class Session {
@@ -28,4 +29,7 @@ export class Session {
 
   @OneToMany(() => Place, (place) => place.session)
   places!: Place[];
+
+  @OneToMany(() => Waypoint, (waypoint) => waypoint.session)
+  waypoints!: Waypoint[];
 }
