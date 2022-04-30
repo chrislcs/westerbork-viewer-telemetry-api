@@ -9,6 +9,7 @@ import {
 
 import { Place } from '../places/place.entity';
 import { Waypoint } from '../waypoints/waypoint.entity';
+import { Page } from '../pages/page.entity';
 
 @Entity({ name: 'sessions' })
 export class Session {
@@ -32,4 +33,7 @@ export class Session {
 
   @OneToMany(() => Waypoint, (waypoint) => waypoint.session)
   waypoints!: Waypoint[];
+
+  @OneToMany(() => Page, (page) => page.session)
+  pages!: Page[];
 }

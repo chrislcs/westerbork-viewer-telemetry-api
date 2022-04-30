@@ -6,6 +6,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { SessionsModule } from './sessions/sessions.module';
 import { PlacesModule } from './places/places.module';
 import { WaypointsModule } from './waypoints/waypoints.module';
+import { PagesModule } from './pages/pages.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { WaypointsModule } from './waypoints/waypoints.module';
     SessionsModule,
     PlacesModule,
     WaypointsModule,
+    PagesModule,
   ],
   controllers: [],
   providers: [],
