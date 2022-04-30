@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -17,6 +18,7 @@ export class Click {
   @JoinColumn({ name: 'session_id' })
   session!: Session;
 
+  @Index()
   @Column({ type: 'uuid' })
   sessionId!: string;
 
