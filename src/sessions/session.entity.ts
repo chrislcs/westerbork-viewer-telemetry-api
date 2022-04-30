@@ -2,9 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { Place } from '../places/place.entity';
 
 @Entity({ name: 'sessions' })
 export class Session {
@@ -22,4 +25,7 @@ export class Session {
 
   @Column({ type: 'boolean', default: false })
   valid = false;
+
+  @OneToMany(() => Place, (place) => place.session)
+  places!: Place[];
 }

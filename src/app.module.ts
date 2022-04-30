@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 import { SessionsModule } from './sessions/sessions.module';
+import { PlacesModule } from './places/places.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SessionsModule } from './sessions/sessions.module';
       namingStrategy: new SnakeNamingStrategy(),
     }),
     SessionsModule,
+    PlacesModule,
   ],
   controllers: [],
   providers: [],
