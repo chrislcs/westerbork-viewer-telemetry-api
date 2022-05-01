@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { Page } from './page.entity';
-import { CreatePageDto } from './dto/create-page.dto';
-import { UpdatePageDto } from './dto/update-page.dto';
+import { PageDto } from './page.dto';
 
 @Injectable()
 export class PagesService {
@@ -13,15 +12,11 @@ export class PagesService {
     private readonly pagesRepository: Repository<Page>,
   ) {}
 
-  create(createPageDto: CreatePageDto): Promise<Page> {
-    return this.pagesRepository.save(createPageDto);
+  createOrUpdate(pageDto: PageDto): Promise<Partial<Page>> {
+    return this.pagesRepository.save(pageDto);
   }
 
   findBySessionId(sessionId: string): Promise<Page[]> {
     return this.pagesRepository.findBy({ sessionId });
-  }
-
-  update(id: number, updatePageDto: UpdatePageDto): Promise<UpdateResult> {
-    return this.pagesRepository.update(id, updatePageDto);
   }
 }

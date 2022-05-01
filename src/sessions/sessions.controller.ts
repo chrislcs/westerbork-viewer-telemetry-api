@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Param, Patch, Body } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 
 import { SessionsService } from './sessions.service';
-import { CreateSessionDto } from './dto/create-session.dto';
-import { UpdateSessionDto } from './dto/update-session.dto';
+import { SessionDto } from './session.dto';
+import { Session } from './session.entity';
 import { UuidIdParams } from '../shared/validators/uuid-params.validator';
 
 @Controller('sessions')
@@ -10,25 +10,17 @@ export class SessionsController {
   constructor(private readonly sessionsService: SessionsService) {}
 
   @Post()
-  create(@Body() createSessionDto: CreateSessionDto) {
-    return this.sessionsService.create(createSessionDto);
+  createOrUpdate(@Body() sessionDto: SessionDto): Promise<Partial<Session>> {
+    return this.sessionsService.createOrUpdate(sessionDto);
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<Session[]> {
     return this.sessionsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param() params: UuidIdParams) {
+  findOne(@Param() params: UuidIdParams): Promise<Session> {
     return this.sessionsService.findOne(params.id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param() params: UuidIdParams,
-    @Body() updateSessionDto: UpdateSessionDto,
-  ) {
-    return this.sessionsService.update(params.id, updateSessionDto);
   }
 }

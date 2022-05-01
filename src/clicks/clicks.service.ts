@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Click } from './click.entity';
-import { CreateClickDto } from './dto/create-click.dto';
+import { ClickDto } from './click.dto';
 
 @Injectable()
 export class ClicksService {
@@ -12,8 +12,8 @@ export class ClicksService {
     private readonly clicksRepository: Repository<Click>,
   ) {}
 
-  create(createClickDto: CreateClickDto): Promise<Click> {
-    return this.clicksRepository.save(createClickDto);
+  createOrUpdate(clickDto: ClickDto): Promise<Partial<Click>> {
+    return this.clicksRepository.save(clickDto);
   }
 
   findBySessionId(sessionId: string): Promise<Click[]> {

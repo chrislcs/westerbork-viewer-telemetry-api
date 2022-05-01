@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { ApiParam } from '@nestjs/swagger';
 
 import { PlacesService } from './places.service';
-import { CreatePlaceDto } from './dto/create-place.dto';
-import { UpdatePlaceDto } from './dto/update-place.dto';
+import { PlaceDto } from './place.dto';
+import { Place } from './place.entity';
 import { UuidSessionIdParams } from '../shared/validators/uuid-params.validator';
 
 @Controller('places')
@@ -11,18 +11,13 @@ export class PlacesController {
   constructor(private readonly placesService: PlacesService) {}
 
   @Post()
-  create(@Body() createPlaceDto: CreatePlaceDto) {
-    return this.placesService.create(createPlaceDto);
+  createOrUpdate(@Body() placeDto: PlaceDto): Promise<Partial<Place>> {
+    return this.placesService.createOrUpdate(placeDto);
   }
 
   @ApiParam({ name: 'sessionId', required: true })
   @Get(':sessionId')
-  findBySessionId(@Param() params: UuidSessionIdParams) {
+  findBySessionId(@Param() params: UuidSessionIdParams): Promise<Place[]> {
     return this.placesService.findBySessionId(params.sessionId);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePlaceDto: UpdatePlaceDto) {
-    return this.placesService.update(+id, updatePlaceDto);
   }
 }

@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { Waypoint } from './waypoint.entity';
-import { CreateWaypointDto } from './dto/create-waypoint.dto';
-import { UpdateWaypointDto } from './dto/update-waypoint.dto';
+import { WaypointDto } from './waypoint.dto';
 
 @Injectable()
 export class WaypointsService {
@@ -13,18 +12,11 @@ export class WaypointsService {
     private readonly waypointsRepository: Repository<Waypoint>,
   ) {}
 
-  create(createWaypointDto: CreateWaypointDto): Promise<Waypoint> {
-    return this.waypointsRepository.save(createWaypointDto);
+  createOrUpdate(waypointDto: WaypointDto): Promise<Partial<Waypoint>> {
+    return this.waypointsRepository.save(waypointDto);
   }
 
   findBySessionId(sessionId: string): Promise<Waypoint[]> {
     return this.waypointsRepository.findBy({ sessionId });
-  }
-
-  update(
-    id: number,
-    updateWaypointDto: UpdateWaypointDto,
-  ): Promise<UpdateResult> {
-    return this.waypointsRepository.update(id, updateWaypointDto);
   }
 }
