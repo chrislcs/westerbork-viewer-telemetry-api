@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Page } from './page.entity';
 import { PageDto } from './page.dto';
+import { createOrUpdate } from '../shared/utils/orm';
 
 @Injectable()
 export class PagesService {
@@ -13,17 +14,7 @@ export class PagesService {
   ) {}
 
   async createOrUpdate(pageDto: PageDto): Promise<Page> {
-    let pageEntity: Page | null = null;
-    if (pageDto.id) {
-      pageEntity = await this.pagesRepository.findOneBy({ id: pageDto.id });
-      Object.assign(pageEntity, pageDto);
-    } else {
-      pageEntity = this.pagesRepository.create(pageDto);
-    }
-
-    if (!pageEntity) throw new NotFoundException();
-
-    return this.pagesRepository.save(pageEntity);
+    return createOrUpdate<Page>(this.pagesRepository, pageDto);
   }
 
   findBySessionId(sessionId: string): Promise<Page[]> {
