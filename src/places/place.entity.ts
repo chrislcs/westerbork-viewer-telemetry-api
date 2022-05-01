@@ -1,3 +1,4 @@
+import { ApiHideProperty } from '@nestjs/swagger';
 import {
   Column,
   Entity,
@@ -15,6 +16,7 @@ export class Place {
   @PrimaryGeneratedColumn()
   id!: number;
 
+  @ApiHideProperty()
   @ManyToOne(() => Session, (session) => session.places)
   @JoinColumn({ name: 'session_id' })
   session!: Session;

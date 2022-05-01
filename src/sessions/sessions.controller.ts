@@ -3,7 +3,7 @@ import { Controller, Get, Post, Param, Patch, Body } from '@nestjs/common';
 import { SessionsService } from './sessions.service';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { UpdateSessionDto } from './dto/update-session.dto';
-import { UuidParams } from '../shared/validators/uuid-params.validator';
+import { UuidIdParams } from '../shared/validators/uuid-params.validator';
 
 @Controller('sessions')
 export class SessionsController {
@@ -20,13 +20,13 @@ export class SessionsController {
   }
 
   @Get(':id')
-  findOne(@Param() params: UuidParams) {
+  findOne(@Param() params: UuidIdParams) {
     return this.sessionsService.findOne(params.id);
   }
 
   @Patch(':id')
   update(
-    @Param() params: UuidParams,
+    @Param() params: UuidIdParams,
     @Body() updateSessionDto: UpdateSessionDto,
   ) {
     return this.sessionsService.update(params.id, updateSessionDto);

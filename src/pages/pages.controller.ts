@@ -1,9 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import { ApiParam } from '@nestjs/swagger';
 
 import { PagesService } from './pages.service';
 import { CreatePageDto } from './dto/create-page.dto';
 import { UpdatePageDto } from './dto/update-page.dto';
-import { UuidParams } from '../shared/validators/uuid-params.validator';
+import { UuidSessionIdParams } from '../shared/validators/uuid-params.validator';
 
 @Controller('pages')
 export class PagesController {
@@ -14,9 +15,10 @@ export class PagesController {
     return this.pagesService.create(createPageDto);
   }
 
-  @Get(':id')
-  findBySessionId(@Param() params: UuidParams) {
-    return this.pagesService.findBySessionId(params.id);
+  @ApiParam({ name: 'sessionId', required: true })
+  @Get(':sessionId')
+  findBySessionId(@Param() params: UuidSessionIdParams) {
+    return this.pagesService.findBySessionId(params.sessionId);
   }
 
   @Patch(':id')

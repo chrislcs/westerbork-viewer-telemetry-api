@@ -1,3 +1,4 @@
+import { ApiHideProperty } from '@nestjs/swagger';
 import {
   Column,
   CreateDateColumn,
@@ -29,15 +30,19 @@ export class Session {
   @Column({ type: 'boolean', default: false })
   valid = false;
 
+  @ApiHideProperty()
   @OneToMany(() => Place, (place) => place.session)
   places!: Place[];
 
+  @ApiHideProperty()
   @OneToMany(() => Waypoint, (waypoint) => waypoint.session)
   waypoints!: Waypoint[];
 
+  @ApiHideProperty()
   @OneToMany(() => Page, (page) => page.session)
   pages!: Page[];
 
+  @ApiHideProperty()
   @OneToMany(() => Click, (click) => click.session)
   clicks!: Click[];
 }

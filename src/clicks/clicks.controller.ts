@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { ApiParam } from '@nestjs/swagger';
 
 import { ClicksService } from './clicks.service';
 import { CreateClickDto } from './dto/create-click.dto';
-import { UuidParams } from '../shared/validators/uuid-params.validator';
+import { UuidSessionIdParams } from '../shared/validators/uuid-params.validator';
 
 @Controller('clicks')
 export class ClicksController {
@@ -13,8 +14,9 @@ export class ClicksController {
     return this.clicksService.create(createClickDto);
   }
 
-  @Get(':id')
-  findBySessionId(@Param() params: UuidParams) {
-    return this.clicksService.findBySessionId(params.id);
+  @ApiParam({ name: 'sessionId', required: true })
+  @Get(':sessionId')
+  findBySessionId(@Param() params: UuidSessionIdParams) {
+    return this.clicksService.findBySessionId(params.sessionId);
   }
 }

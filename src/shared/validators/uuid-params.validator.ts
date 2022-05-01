@@ -1,6 +1,12 @@
+/* eslint-disable max-classes-per-file */
 import { IsUUID } from 'class-validator';
 
-export class UuidParams {
+export class UuidIdParams {
   @IsUUID()
   id!: string;
+}
+
+export class UuidSessionIdParams {
+  @IsUUID()
+  sessionId!: string;
 }

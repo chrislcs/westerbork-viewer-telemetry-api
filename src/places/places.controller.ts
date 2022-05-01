@@ -1,9 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import { ApiParam } from '@nestjs/swagger';
 
 import { PlacesService } from './places.service';
 import { CreatePlaceDto } from './dto/create-place.dto';
 import { UpdatePlaceDto } from './dto/update-place.dto';
-import { UuidParams } from '../shared/validators/uuid-params.validator';
+import { UuidSessionIdParams } from '../shared/validators/uuid-params.validator';
 
 @Controller('places')
 export class PlacesController {
@@ -14,9 +15,10 @@ export class PlacesController {
     return this.placesService.create(createPlaceDto);
   }
 
-  @Get(':id')
-  findBySessionId(@Param() params: UuidParams) {
-    return this.placesService.findBySessionId(params.id);
+  @ApiParam({ name: 'sessionId', required: true })
+  @Get(':sessionId')
+  findBySessionId(@Param() params: UuidSessionIdParams) {
+    return this.placesService.findBySessionId(params.sessionId);
   }
 
   @Patch(':id')

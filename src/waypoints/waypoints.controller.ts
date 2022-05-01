@@ -1,9 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import { ApiParam } from '@nestjs/swagger';
 
 import { WaypointsService } from './waypoints.service';
 import { CreateWaypointDto } from './dto/create-waypoint.dto';
 import { UpdateWaypointDto } from './dto/update-waypoint.dto';
-import { UuidParams } from '../shared/validators/uuid-params.validator';
+import { UuidSessionIdParams } from '../shared/validators/uuid-params.validator';
 
 @Controller('waypoints')
 export class WaypointsController {
@@ -14,9 +15,10 @@ export class WaypointsController {
     return this.waypointsService.create(createWaypointDto);
   }
 
-  @Get(':id')
-  findBySessionId(@Param() params: UuidParams) {
-    return this.waypointsService.findBySessionId(params.id);
+  @ApiParam({ name: 'sessionId', required: true })
+  @Get(':sessionId')
+  findBySessionId(@Param() params: UuidSessionIdParams) {
+    return this.waypointsService.findBySessionId(params.sessionId);
   }
 
   @Patch(':id')
