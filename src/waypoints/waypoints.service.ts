@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,8 +12,20 @@ export class WaypointsService {
     private readonly waypointsRepository: Repository<Waypoint>,
   ) {}
 
-  createOrUpdate(waypointDto: WaypointDto): Promise<Partial<Waypoint>> {
-    return this.waypointsRepository.save(waypointDto);
+  async createOrUpdate(waypointDto: WaypointDto): Promise<Waypoint> {
+    let waypointEntity: Waypoint | null = null;
+    if (waypointDto.id) {
+      waypointEntity = await this.waypointsRepository.findOneBy({
+        id: waypointDto.id,
+      });
+      Object.assign(waypointEntity, waypointDto);
+    } else {
+      waypointEntity = this.waypointsRepository.create(waypointDto);
+    }
+
+    if (!waypointEntity) throw new NotFoundException();
+
+    return this.waypointsRepository.save(waypointEntity);
   }
 
   findBySessionId(sessionId: string): Promise<Waypoint[]> {

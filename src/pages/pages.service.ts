@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,8 +12,18 @@ export class PagesService {
     private readonly pagesRepository: Repository<Page>,
   ) {}
 
-  createOrUpdate(pageDto: PageDto): Promise<Partial<Page>> {
-    return this.pagesRepository.save(pageDto);
+  async createOrUpdate(pageDto: PageDto): Promise<Page> {
+    let pageEntity: Page | null = null;
+    if (pageDto.id) {
+      pageEntity = await this.pagesRepository.findOneBy({ id: pageDto.id });
+      Object.assign(pageEntity, pageDto);
+    } else {
+      pageEntity = this.pagesRepository.create(pageDto);
+    }
+
+    if (!pageEntity) throw new NotFoundException();
+
+    return this.pagesRepository.save(pageEntity);
   }
 
   findBySessionId(sessionId: string): Promise<Page[]> {

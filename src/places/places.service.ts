@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,8 +12,18 @@ export class PlacesService {
     private readonly placesRepository: Repository<Place>,
   ) {}
 
-  createOrUpdate(placeDto: PlaceDto): Promise<Partial<Place>> {
-    return this.placesRepository.save(placeDto);
+  async createOrUpdate(placeDto: PlaceDto): Promise<Place> {
+    let placeEntity: Place | null = null;
+    if (placeDto.id) {
+      placeEntity = await this.placesRepository.findOneBy({ id: placeDto.id });
+      Object.assign(placeEntity, placeDto);
+    } else {
+      placeEntity = this.placesRepository.create(placeDto);
+    }
+
+    if (!placeEntity) throw new NotFoundException();
+
+    return this.placesRepository.save(placeEntity);
   }
 
   findBySessionId(sessionId: string): Promise<Place[]> {

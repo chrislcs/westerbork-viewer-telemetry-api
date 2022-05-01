@@ -11,7 +11,7 @@ export class WaypointsController {
   constructor(private readonly waypointsService: WaypointsService) {}
 
   @Post()
-  createOrUpdate(@Body() waypointDto: WaypointDto): Promise<Partial<Waypoint>> {
+  createOrUpdate(@Body() waypointDto: WaypointDto): Promise<Waypoint> {
     return this.waypointsService.createOrUpdate(waypointDto);
   }
 

@@ -11,7 +11,7 @@ export class PagesController {
   constructor(private readonly pagesService: PagesService) {}
 
   @Post()
-  createOrUpdate(@Body() pageDto: PageDto): Promise<Partial<Page>> {
+  createOrUpdate(@Body() pageDto: PageDto): Promise<Page> {
     return this.pagesService.createOrUpdate(pageDto);
   }
 

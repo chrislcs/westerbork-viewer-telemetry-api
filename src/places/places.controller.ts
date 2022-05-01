@@ -11,7 +11,7 @@ export class PlacesController {
   constructor(private readonly placesService: PlacesService) {}
 
   @Post()
-  createOrUpdate(@Body() placeDto: PlaceDto): Promise<Partial<Place>> {
+  createOrUpdate(@Body() placeDto: PlaceDto): Promise<Place> {
     return this.placesService.createOrUpdate(placeDto);
   }
 

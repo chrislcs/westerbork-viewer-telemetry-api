@@ -4,10 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { WaypointsService } from './waypoints.service';
 import { WaypointsController } from './waypoints.controller';
 import { Waypoint } from './waypoint.entity';
+import { WaypointSubscriber } from './waypoint.subscriber';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Waypoint])],
   controllers: [WaypointsController],
-  providers: [WaypointsService],
+  providers: [WaypointsService, WaypointSubscriber],
 })
 export class WaypointsModule {}

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,8 +12,18 @@ export class ClicksService {
     private readonly clicksRepository: Repository<Click>,
   ) {}
 
-  createOrUpdate(clickDto: ClickDto): Promise<Partial<Click>> {
-    return this.clicksRepository.save(clickDto);
+  async createOrUpdate(clickDto: ClickDto): Promise<Click> {
+    let clickEntity: Click | null = null;
+    if (clickDto.id) {
+      clickEntity = await this.clicksRepository.findOneBy({ id: clickDto.id });
+      Object.assign(clickEntity, clickDto);
+    } else {
+      clickEntity = this.clicksRepository.create(clickDto);
+    }
+
+    if (!clickEntity) throw new NotFoundException();
+
+    return this.clicksRepository.save(clickEntity);
   }
 
   findBySessionId(sessionId: string): Promise<Click[]> {

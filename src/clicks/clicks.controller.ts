@@ -11,7 +11,7 @@ export class ClicksController {
   constructor(private readonly clicksService: ClicksService) {}
 
   @Post()
-  createOrUpdate(@Body() clickDto: ClickDto): Promise<Partial<Click>> {
+  createOrUpdate(@Body() clickDto: ClickDto): Promise<Click> {
     return this.clicksService.createOrUpdate(clickDto);
   }
 
