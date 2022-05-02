@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { LessThan, MoreThanOrEqual, Repository } from 'typeorm';
 
 import { Session } from './session.entity';
-import { SessionDto } from './session.dto';
-import { SessionsQuery } from './sessions-query.validator';
+import { SessionDto } from './dto/session.dto';
+import { SessionsQueryDto } from './dto/sessions-query.dto';
 
 @Injectable()
 export class SessionsService {
@@ -17,23 +17,23 @@ export class SessionsService {
     return this.sessionsRepository.save(sessionDto);
   }
 
-  findAll(options: SessionsQuery): Promise<Session[]> {
+  findAll(query: SessionsQueryDto): Promise<Session[]> {
     const where: { [key: string]: any } = {};
-    if (typeof options.startDateTime !== 'undefined') {
-      where.createdAt = MoreThanOrEqual(options.startDateTime);
+    if (typeof query.startDateTime !== 'undefined') {
+      where.createdAt = MoreThanOrEqual(query.startDateTime);
     }
-    if (typeof options.endDateTime !== 'undefined') {
-      where.createdAt = LessThan(options.endDateTime);
+    if (typeof query.endDateTime !== 'undefined') {
+      where.createdAt = LessThan(query.endDateTime);
     }
-    if (typeof options.onPremise !== 'undefined') {
-      where.onPremise = options.onPremise;
+    if (typeof query.onPremise !== 'undefined') {
+      where.onPremise = query.onPremise;
     }
-    if (typeof options.valid !== 'undefined') {
-      where.valid = options.valid;
+    if (typeof query.valid !== 'undefined') {
+      where.valid = query.valid;
     }
     return this.sessionsRepository.find({
-      take: options.limit,
-      skip: options.offset,
+      take: query.limit,
+      skip: query.offset,
       where,
     });
   }

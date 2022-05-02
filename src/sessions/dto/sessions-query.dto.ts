@@ -1,9 +1,9 @@
 import { IsBoolean, IsInt, IsISO8601, IsOptional } from 'class-validator';
 import { Type, Transform } from 'class-transformer';
 
-import { toBoolean } from '../shared/utils/transform';
+import { toBoolean } from '../../shared/utils/transform';
 
-export class SessionsQuery {
+export class SessionsQueryDto {
   @IsOptional()
   @IsInt()
   @Type(() => Number)

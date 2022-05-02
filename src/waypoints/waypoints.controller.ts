@@ -4,7 +4,7 @@ import { ApiParam } from '@nestjs/swagger';
 import { WaypointsService } from './waypoints.service';
 import { WaypointDto } from './waypoint.dto';
 import { Waypoint } from './waypoint.entity';
-import { UuidSessionIdParams } from '../shared/validators/uuid-params.validator';
+import { UuidSessionIdParamsDto } from '../shared/dto/uuid-params.dto';
 
 @Controller('waypoints')
 export class WaypointsController {
@@ -17,7 +17,9 @@ export class WaypointsController {
 
   @ApiParam({ name: 'sessionId', required: true })
   @Get(':sessionId')
-  findBySessionId(@Param() params: UuidSessionIdParams): Promise<Waypoint[]> {
+  findBySessionId(
+    @Param() params: UuidSessionIdParamsDto,
+  ): Promise<Waypoint[]> {
     return this.waypointsService.findBySessionId(params.sessionId);
   }
 }

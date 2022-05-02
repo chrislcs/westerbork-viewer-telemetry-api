@@ -4,7 +4,7 @@ import { ApiParam } from '@nestjs/swagger';
 import { ClicksService } from './clicks.service';
 import { ClickDto } from './click.dto';
 import { Click } from './click.entity';
-import { UuidSessionIdParams } from '../shared/validators/uuid-params.validator';
+import { UuidSessionIdParamsDto } from '../shared/dto/uuid-params.dto';
 
 @Controller('clicks')
 export class ClicksController {
@@ -17,7 +17,7 @@ export class ClicksController {
 
   @ApiParam({ name: 'sessionId', required: true })
   @Get(':sessionId')
-  findBySessionId(@Param() params: UuidSessionIdParams): Promise<Click[]> {
+  findBySessionId(@Param() params: UuidSessionIdParamsDto): Promise<Click[]> {
     return this.clicksService.findBySessionId(params.sessionId);
   }
 }
